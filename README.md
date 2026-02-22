@@ -1,6 +1,6 @@
 # atomic-yellow &nbsp; [![build](https://github.com/buggerman/atomic-yellow/actions/workflows/build.yml/badge.svg)](https://github.com/buggerman/atomic-yellow/actions/workflows/build.yml)
 
-Custom Fedora Cosmic Atomic image for the Dell Latitude 7420, with working Broadcom fingerprint support (USB ID `0a5c:5843`).
+Custom Fedora Cosmic Atomic image for the Dell Laptops, with working Broadcom fingerprint support (USB ID `0a5c:5843`).
 
 Builds daily from `ghcr.io/ublue-os/cosmic-atomic-main:latest`.
 
