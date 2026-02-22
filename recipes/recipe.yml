@@ -4,7 +4,7 @@ name: atomic-yellow
 description: Custom Fedora Cosmic Atomic image for Dell Latitude 7420 with Broadcom fingerprint support.
 
 base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
-image-version: latest
+image-version: "43"
 
 modules:
   - type: files
