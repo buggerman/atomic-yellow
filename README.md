@@ -2,7 +2,7 @@
 
 Custom Fedora Cosmic Atomic image for the Dell Laptops, with working Broadcom fingerprint support (USB ID `0a5c:5843`).
 
-Builds daily from `ghcr.io/ublue-os/cosmic-atomic-main:latest`.
+Builds daily from `quay.io/fedora-ostree-desktops/cosmic-atomic:latest`.
 
 ## What's different
 
