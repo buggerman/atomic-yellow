@@ -14,10 +14,10 @@ Builds daily from `quay.io/fedora-ostree-desktops/cosmic-atomic:latest`.
 
 Start from any Fedora Atomic install (Cosmic Atomic recommended).
 
-Rebase to the signed image:
+Rebase to the image:
 
 ```bash
-sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/buggerman/atomic-yellow:latest
+sudo rpm-ostree rebase ostree-unverified-registry:docker://ghcr.io/buggerman/atomic-yellow:latest
 ```
 
 Reboot to complete.
