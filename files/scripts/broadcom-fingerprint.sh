@@ -9,6 +9,6 @@ FIRMWARE_DEST="/usr/share/fprint/fw"
 
 mkdir -p "${FIRMWARE_DEST}"
 curl -sL "${FIRMWARE_URL}" \
-  | tar -xz --strip-components=3 \
+  | tar -xz --strip-components=5 \
       -C "${FIRMWARE_DEST}" \
       brcm_linux_fp/var/lib/fprint/fw
