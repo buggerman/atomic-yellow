@@ -27,5 +27,6 @@ modules:
         - libfprint-2-tod1-broadcom
         - libfprint-tod-selinux
         - intel-media-driver
+        - smbios-utils
 
   - type: signing
