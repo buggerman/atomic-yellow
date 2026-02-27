@@ -19,6 +19,8 @@ modules:
         - thermald
         - tlp
         - tlp-rdw
+        - ntfs-3g
+        - exfatprogs
 
   - type: systemd
     system:
