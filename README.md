@@ -13,7 +13,7 @@ Built on top of `ghcr.io/buggerman/atomic-yellow:latest` and triggered automatic
 
 ## Installation
 
-Start from any Fedora Atomic install (Cosmic Atomic recommended).
+Start from any Fedora Atomic install ([Cosmic Atomic](https://www.fedoraproject.org/atomic-desktops/cosmic/download/) recommended).
 
 **Step 1** — initial rebase (unsigned, bootstraps the image and its signing policy):
 
