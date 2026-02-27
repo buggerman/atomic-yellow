@@ -1,14 +1,20 @@
 # atomic-yellow &nbsp; [![build](https://github.com/buggerman/atomic-yellow/actions/workflows/build.yml/badge.svg)](https://github.com/buggerman/atomic-yellow/actions/workflows/build.yml)
 
-Custom Fedora Cosmic Atomic image for the Dell Laptops, with working Broadcom fingerprint support (USB ID `0a5c:5843`).
+An evolving custom Fedora Cosmic Atomic image, built daily from `quay.io/fedora-ostree-desktops/cosmic-atomic:latest`.
 
-Builds daily from `quay.io/fedora-ostree-desktops/cosmic-atomic:latest`.
+This is the base image. Hardware-specific variants are maintained in separate branches and built on top of this image.
 
-## What's different
+## What's included
 
-- `libfprint` replaced with `libfprint-tod` (TOD driver support)
-- Broadcom TOD driver and firmware installed from Dell's upstream archive
-- SELinux policy for the TOD driver included
+- RPMFusion (nonfree) with freeworld codecs (`libavcodec`, GStreamer plugins)
+- VA-API support via `gstreamer1-vaapi`
+- Power management via `thermald` and `tlp`
+
+## Hardware variants
+
+| Branch | Image | Description |
+|--------|-------|-------------|
+| [dell](https://github.com/buggerman/atomic-yellow/tree/dell) | `ghcr.io/buggerman/atomic-yellow-dell:latest` | Dell laptops with Broadcom fingerprint support |
 
 ## Installation
 
