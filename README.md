@@ -18,7 +18,7 @@ This is the base image. Hardware-specific variants are maintained in separate br
 
 ## Installation
 
-Start from any Fedora Atomic install (Cosmic Atomic recommended).
+Start from any Fedora Atomic install ([Cosmic Atomic](https://www.fedoraproject.org/atomic-desktops/cosmic/download/) recommended).
 
 **Step 1** — initial rebase (unsigned, bootstraps the image and its signing policy):
 
