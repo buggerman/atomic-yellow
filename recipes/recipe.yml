@@ -16,6 +16,7 @@ modules:
     repos:
       copr:
         - grahamwhiteuk/libfprint-tod
+      nonfree: rpmfusion
 
   - type: script
     scripts:
@@ -26,5 +27,19 @@ modules:
       packages:
         - libfprint-2-tod1-broadcom
         - libfprint-tod-selinux
+        - intel-media-driver
+        - libavcodec-freeworld
+        - gstreamer1-plugins-bad-freeworld
+        - gstreamer1-plugins-ugly
+        - gstreamer1-vaapi
+        - thermald
+        - tlp
+        - tlp-rdw
+
+  - type: systemd
+    system:
+      enabled:
+        - thermald.service
+        - tlp.service
 
   - type: signing
