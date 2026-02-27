@@ -1,14 +1,6 @@
 name: bluebuild
 on:
-  workflow_dispatch: # triggered by main branch on successful build, or manually
-  push:
-    branches:
-      - dell
-    paths-ignore:
-      - "**.md"
-  pull_request:
-    branches:
-      - dell
+  workflow_dispatch: # triggered by main branch coordinator on successful build, or manually
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
