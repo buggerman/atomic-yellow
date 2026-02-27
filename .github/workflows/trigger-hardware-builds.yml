@@ -1,0 +1,20 @@
+name: trigger-hardware-builds
+on:
+  workflow_run:
+    workflows: ["bluebuild"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  trigger-dell:
+    name: Trigger dell build
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Trigger dell branch build
+        run: gh workflow run build.yml --ref dell
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
