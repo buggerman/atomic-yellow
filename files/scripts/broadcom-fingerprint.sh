@@ -2,8 +2,7 @@
 
 set -oue pipefail
 
-dnf remove -y libfprint
-dnf install -y libfprint-tod
+dnf swap -y libfprint libfprint-tod
 
 FIRMWARE_URL="http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-broadcom/libfprint-2-tod1-broadcom_5.15.285-5.15.010.0.orig.tar.gz"
 FIRMWARE_DEST="/usr/share/fprint/fw"
