@@ -18,13 +18,13 @@ Start from any Fedora Atomic install ([Cosmic Atomic](https://www.fedoraproject.
 **Step 1** — initial rebase (unsigned, bootstraps the image and its signing policy):
 
 ```bash
-sudo rpm-ostree rebase ostree-unverified-registry:docker://ghcr.io/buggerman/atomic-yellow-dell:latest
+sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/buggerman/atomic-yellow-dell:br-dell-43
 ```
 
 Reboot, then **Step 2** — rebase to the signed transport:
 
 ```bash
-sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/buggerman/atomic-yellow-dell:latest
+sudo rpm-ostree rebase ostree-image-signed:ghcr.io/buggerman/atomic-yellow-dell:br-dell-43
 ```
 
 Reboot to complete.
