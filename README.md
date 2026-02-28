@@ -24,7 +24,7 @@ sudo rpm-ostree rebase ostree-unverified-registry:ghcr.io/buggerman/atomic-yello
 Reboot, then **Step 2** — rebase to the signed transport:
 
 ```bash
-sudo rpm-ostree rebase ostree-image-signed:ghcr.io/buggerman/atomic-yellow-dell:latest
+sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/buggerman/atomic-yellow-dell:latest
 ```
 
 Reboot to complete.
