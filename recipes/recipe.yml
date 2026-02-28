@@ -1,10 +1,10 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: atomic-yellow-dell
-description: Atomic Yellow for Dell laptops with Broadcom fingerprint, codecs, and power management.
+description: Atomic Yellow for Dell laptops with Broadcom fingerprint support and Intel media driver.
 
-base-image: quay.io/fedora-ostree-desktops/cosmic-atomic
-image-version: "43"
+base-image: ghcr.io/buggerman/atomic-yellow
+image-version: latest
 
 modules:
   - type: files
@@ -12,22 +12,10 @@ modules:
       - source: system
         destination: /
 
-  - type: script
-    scripts:
-      - rpmfusion.sh
-
   - type: dnf
     repos:
       copr:
         - grahamwhiteuk/libfprint-tod
-    install:
-      packages:
-        - libavcodec-freeworld
-        - gstreamer1-plugins-bad-freeworld
-        - gstreamer1-plugins-ugly
-        - gstreamer1-vaapi
-        - tlp
-        - tlp-rdw
 
   - type: script
     scripts:
@@ -40,11 +28,5 @@ modules:
         - libfprint-tod-selinux
         - intel-media-driver
         - smbios-utils
-
-  - type: systemd
-    system:
-      enabled:
-        - thermald.service
-        - tlp.service
 
   - type: signing
