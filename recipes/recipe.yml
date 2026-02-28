@@ -12,6 +12,10 @@ modules:
       - source: system
         destination: /
 
+  - type: script
+    scripts:
+      - rpmfusion.sh
+
   - type: dnf
     repos:
       copr:
