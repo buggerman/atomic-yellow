@@ -28,3 +28,11 @@ jobs:
           registry_token: ${{ github.token }}
           pr_event_number: ${{ github.event.number }}
           maximize_build_space: true
+
+      - name: Tag as latest
+        run: |
+          skopeo copy \
+            --src-creds=buggerman:${{ github.token }} \
+            --dest-creds=buggerman:${{ github.token }} \
+            docker://ghcr.io/buggerman/atomic-yellow-dell:br-dell-43 \
+            docker://ghcr.io/buggerman/atomic-yellow-dell:latest
