@@ -23,10 +23,13 @@ modules:
         - tlp
         - tlp-rdw
 
+  - type: script
+    scripts:
+      - enable-thermald.sh
+
   - type: systemd
     system:
       enabled:
-        - thermald.service
         - tlp.service
 
   - type: signing
