@@ -1,0 +1,73 @@
+name: check-fedora-bump
+on:
+  schedule:
+    - cron: "0 8 * * *" # daily 08:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probe RPM Fusion readiness for next Fedora release
+        id: probe
+        run: |
+          set -euo pipefail
+          CURRENT=$(sed -nE 's/^image-version: *"?([0-9]+)"?.*/\1/p' recipes/recipe.yml)
+          if [[ -z "$CURRENT" ]]; then
+            echo "Could not parse image-version from recipes/recipe.yml" >&2
+            exit 1
+          fi
+          NEXT=$((CURRENT + 1))
+          echo "Current: F${CURRENT}, probing F${NEXT}"
+
+          ready=true
+          for arch in x86_64 aarch64; do
+            url="https://download1.rpmfusion.org/nonfree/fedora/releases/${NEXT}/Everything/${arch}/os/repodata/repomd.xml"
+            code=$(curl -sI -o /dev/null -w "%{http_code}" "$url")
+            echo "  ${arch}: ${code}"
+            [[ "$code" == "200" ]] || ready=false
+          done
+
+          echo "next=${NEXT}" >> "$GITHUB_OUTPUT"
+          echo "ready=${ready}" >> "$GITHUB_OUTPUT"
+
+      - name: Open bump PR if ready
+        if: steps.probe.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEXT: ${{ steps.probe.outputs.next }}
+        run: |
+          set -euo pipefail
+          BRANCH="auto/bump-fedora-${NEXT}"
+
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo "Branch $BRANCH already exists — skipping."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+
+          sed -i -E "s/^(image-version: *).*/\1\"${NEXT}\"/" recipes/recipe.yml
+
+          if git diff --quiet recipes/recipe.yml; then
+            echo "No change to recipe — aborting."
+            exit 0
+          fi
+
+          git add recipes/recipe.yml
+          git commit -m "Bump Fedora base image to ${NEXT}"
+          git push -u origin "$BRANCH"
+
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Bump Fedora base image to ${NEXT}" \
+            --body "RPM Fusion nonfree repodata for Fedora ${NEXT} is now published for both x86_64 and aarch64. The build workflow will exercise the new base on this PR — review the result before merging."
