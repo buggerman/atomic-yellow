@@ -41,3 +41,13 @@ Images are signed with [cosign](https://github.com/sigstore/cosign). To verify:
 ```bash
 cosign verify --key cosign.pub ghcr.io/buggerman/atomic-yellow
 ```
+
+## Image retention
+
+A weekly cleanup workflow keeps the registry tidy:
+
+- `latest` and any plain-numeric Fedora-version tag (e.g. `43`, `44`) are always retained.
+- The 30 newest remaining versions are kept; older ones are deleted.
+- Applies to both `atomic-yellow` and `atomic-yellow-dell`.
+
+Run `cleanup-ghcr` manually from the Actions tab (with `dry_run: true`) to preview what would be removed before a scheduled run.

@@ -1,0 +1,60 @@
+name: cleanup-ghcr
+on:
+  schedule:
+    - cron: "0 7 * * 0" # Sundays 07:00 UTC (one hour after the daily build window)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "List versions that would be deleted without deleting"
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    name: Clean ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - atomic-yellow
+          - atomic-yellow-dell
+    steps:
+      - name: List versions that would be deleted (dry-run)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OWNER: ${{ github.repository_owner }}
+          PKG: ${{ matrix.package }}
+        run: |
+          echo "::group::Candidates for deletion from $OWNER/$PKG"
+          gh api --paginate \
+            "/users/$OWNER/packages/container/$PKG/versions" \
+            --jq '.[]' \
+          | jq -s '
+              map(select(
+                ([(.metadata.container.tags // [])[]
+                  | select(test("^(latest|[0-9]+)$"))] | length) == 0
+              ))
+              | sort_by(.created_at) | reverse
+              | .[30:]
+              | .[] | {id, created_at, tags: .metadata.container.tags}
+            '
+          echo "::endgroup::"
+
+      - name: Delete old package versions
+        if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.dry_run == false) }}
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ matrix.package }}
+          package-type: container
+          min-versions-to-keep: 30
+          ignore-versions: '^(latest|[0-9]+)$'
