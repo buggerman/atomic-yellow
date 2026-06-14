@@ -12,6 +12,11 @@ platforms:
 
 modules:
   - type: dnf
+    remove:
+      packages:
+        - tuned-ppd
+
+  - type: dnf
     install:
       packages:
         - gstreamer1-vaapi
